@@ -1,0 +1,22 @@
+- hosts: all
+  tasks:
+    - name: create /opt/node_exporter directory
+      file:
+        path: /opt/node_exporter
+        state: directory
+    - name: upload node_exporter binary
+      copy:
+        src: /root/node_exporter/node_exporter
+        dest: /opt/node_exporter/node_exporter
+        owner: root
+        group: root
+        mode: '+x'
+    - name: upload node_exporter.service systemd
+      copy:
+        src: /root/node_exporter/node_exporter.service
+        dest: /usr/lib/systemd/system/node_exporter.service
+    - name: systemctl daemon reload
+      systemd:
+        state: restarted
+        daemon_reload: true
+        name: node_exporter

@@ -1,0 +1,25 @@
+- hosts: all
+  tasks:
+    - name: gpg key
+      shell: curl https://packages.fluentbit.io/fluentbit.key | gpg --dearmor > /usr/share/keyrings/fluentbit-keyring.gpg
+    - name: add fluent-bit sources lists
+      copy:
+        src: /root/fluent-bit/fluent-bit.list
+        dest: /etc/apt/sources.list.d/fluent-bit.list
+    - name: add focal-security sources lists
+      copy:
+        src: /root/fluent-bit/focal-security.list
+        dest: /etc/apt/sources.list.d/focal-security.list
+    - name: install libssl1.1
+      apt:
+        name: libssl1.1
+        update_cache: yes
+    - name: install fluent-bit
+      apt:
+        name: fluent-bit
+        update_cache: yes
+    - name: start
+      systemd:
+        name: fluent-bit
+        state: started
+        enabled: true
