@@ -1,0 +1,22 @@
+---
+- hosts: localhost
+  vars:
+    var1: "Hello World"
+    var2: true
+    var3: 123
+  tasks:
+  - name: output var1
+    debug:
+      var: var1
+  - name: output var2
+    debug:
+      var: var2
+  - name: output var3
+    debug:
+      var: var3
+  - debug:
+      msg: "The 'var1' variable contains a {{ var1 | type_debug }}"
+  - debug:
+      msg: "The 'var2' variable contains a {{ var2 | type_debug }}"
+  - debug:
+      msg: "The 'var3' variable contains a {{ var3 | type_debug }}"
